@@ -1,17 +1,18 @@
-# AIXM Business Rules Grammar\
-This repository provides the reference EBNF grammar for the AIXM business rules and the variants of this grammar that are used in specific tools that wupport the AIXM business rules creation, management and implementation.
+# AIXM Business Rules Grammar
+This repository provides the reference EBNF grammar for the AIXM business rules (after 2023) and the variants of this grammar that are used in specific tools that wupport the AIXM business rules creation, management and implementation.
 
 ## Reference grammar
 TBD - the basic grammar, in a standard EBNF notation (might be different from the pegyjs notation). For the moment, there are two main candidates:
 - grammar.pegjs
-## Businee Rules Manager (BRM) editor grammar
+
+## Variants
+### Businee Rules Manager (BRM) editor grammar (PeggyJS.org)
 The grammar described here is used for editing the rules, with suport of the "SBVR Assistant" tool in BRM. This uses the library [Peggy](https://peggyjs.org/)
 You'll find in this repository 2 main files:
 - grammarComplex.pegjs
-
 The only difference between both is that we did integrate auto-tagging in the complex file, formating post-validation the result that peggy offers us.  
 
-## Testing rules
+#### Testing rules
 Their [Online version](https://peggyjs.org/online.html) allow us to test our grammar rules validation system.
 
 ## Grammar syntax
