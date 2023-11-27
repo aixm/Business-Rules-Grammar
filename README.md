@@ -12,10 +12,6 @@ You'll find in this repository 2 main files:
 - grammarComplex.pegjs
 The only difference between both is that we did integrate auto-tagging in the complex file, formating post-validation the result that peggy offers us.  
 
-#### Testing rules
-Their [Online version](https://peggyjs.org/online.html) allow us to test our grammar rules validation system.
-
-## Grammar syntax
 ### General rules 
 |     Element    |     Rule of the   element                                                                                 |
 |----------------|-----------------------------------------------------------------------------------------------------------|
@@ -40,3 +36,5 @@ If not set like this, the following rule won't be accepted because the grammar l
 Concrete example below, the NounConcept subrule will return the nounConcept, without its initial \$, surrounded by its tags. 
 ```NounConcept = "$" nc:(NounConceptChars+) { return `<noun_concept>${nc.join('')}</noun_concept>` }```
 
+## Testing rules
+The [PeggyJS.org online version](https://peggyjs.org/online.html) allows to test the rules agains the grammar.
