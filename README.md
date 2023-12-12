@@ -3,7 +3,9 @@ This repository provides the reference EBNF grammar for the AIXM business rules 
 
 ## Reference grammar
 The basic grammar, in a standard EBNF notation.
+
 [Peggy_rule_verification](https://github.com/aixm/Business-Rules-Grammar/blob/main/Peggy_rule_verification)
+
 For the moment, a notation that is specific to the [Peggy](https://peggyjs.org/) (Parser Generator for JavaScript) and it includes some Peggy functions that allow to identify the elementary condition used in the rule. 
 This is a temporary situation, due to the use of Peggy in the Eurocontrol Business Rules Editor (BRM). Once the grammar is finalised, a more standard EBNF notation will be applied.
 
@@ -27,7 +29,9 @@ If not set like this, the following rule won't be accepted because the grammar l
 ## Variants
 ### BRM editor grammar (Peggy)
 The grammar provided here is used for editing the rules, with suport of the "SBVR Assistant" tool in Business Rules Manager (BRM) tool of EUROCONTROL. This uses the library [Peggy](https://peggyjs.org/)
+
 [Peggy_BRM_editor](https://github.com/aixm/Business-Rules-Grammar/blob/main/Peggy_BRM_editor)
+
 #### Tagging values
 ```<RuleName> = <name>:<RulePart> { <js_code using name> }```
 
