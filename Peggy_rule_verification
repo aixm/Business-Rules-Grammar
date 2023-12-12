@@ -1,0 +1,107 @@
+AIXMBusinessRule = ItIsProhibited W_ ConditionsSeparated W_?
+ 
+ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*  
+ 
+ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)  
+ 
+D_NounDescendNouns = Object S_ ("has-descendant"/"has") S_ (QuantityOrRange S_)? propertyPath { return `[D]` }
+ 
+DVT_NounDescendNounsTest = D_NounDescendNouns S_ value S_ Test { return `[DVT]` }
+ 
+D_NounDescendNounsNoQuantity = Object S_ ("has-descendant"/"has") S_ propertyPath
+ 
+DV_NounDescendNounsValue = ((D_NounDescendNounsNoQuantity S_ unspecified) / (D_NounDescendNouns S_ value)) { return `[DV]` }
+ 
+VVV_NounValueVsNounValue = Object S_ "has" S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value { return `[VVV]` }
+ 
+A_NounAncestor = Object S_ "is-descendant-of" S_ Object { return `[A]` }
+ 
+RF_NounReferenceNoun = propertyWithRef S_ "references-to" S_ Object { return `[RF]` }
+ 
+RFB_NounReferencedByNouns = Object S_ "is-referenced-by" S_ (Quantity S_)? propertyWithRef { return `[RFB]` }
+ 
+ 
+Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray / CoordinatesExpressedWith / ExpressedWith)
+ 
+That = "#" W_? (CHAR / W_ / [-${}:,.+*/\\\[\]] /Integer)+ W_? "#"
+ 
+ 
+CompareValues = ("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from")
+ 
+ 
+ 
+ 
+CompareWithSingleName = ("as" / "other-than" / "starting-with" / "contains-substring") S_ ((SingleQuote parameter SingleQuote) / Singlevalue)
+ 
+CompareWithNameArray = ("other-than-one-of" / "as-one-of")  S_ (Multiplevalues / parameter) 
+ 
+CompareWithNumber = ("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from") S_ (parameter / (SingleQuote Decimal SingleQuote))
+ 
+ExpressedWith = "expressed-with" S_ QuantityOrRange S_ (Decimals / Characters)  
+ 
+CoordinatesExpressedWith = "coordinates-expressed-with" S_ QuantityOrRange S_ (Decimals / Characters)
+ 
+Multiplevalues = "(" W_? Singlevalue (Commavalue)+ W_? ")"
+ 
+Commavalue = W_? "," W_? Singlevalue
+ 
+Singlevalue = (SingleQuote valueContent SingleQuote) / (DoubleQuote valueContent DoubleQuote)
+ 
+Object = (Noun / NounParameter / dataSet)
+ 
+elementPath       = (Noun / NounParameter) (pathContinuation)*
+pathContinuation = PS (Noun / NounParameter)
+ 
+propertyPath      = (attrPath / elementPath)
+ 
+attrPath        = (elementPath)? attr
+ 
+propertyWithRef = elementPath hrefAttr
+ 
+Noun                     = namespace? NounChars index?
+NounParameter                = parameter index?
+ 
+NounChars = CHAR [a-zA-Z_0-9]*
+ 
+dataSet     = "::dataSet"
+hrefAttr    = "@xlink:href" 
+namespace      = CHAR [a-zA-Z_0-9]* ':'
+PS         = '.'
+attr         = '@' NounChars ':href'?
+index      = '[' FirstDigit ']' 
+ 
+QuantityOrRange = (Quantity / Range)
+ 
+Quantity = ("more-than" / "exactly" / "less-than" / "at-least" / "at-most") S_ OneOrInteger
+ 
+Range = "from" S_ MultipleIntegerNoZero W_ "to" S_ MultipleIntegerNoZero
+ 
+OneOrInteger = ("one" / MultipleIntegerNoZero / parameter)
+ 
+ 
+parameter = "${" (CHAR)+ "}"
+ 
+ItIsProhibited     = prohibit:"It is prohibited that" { return `${prohibit}` }
+ 
+AndOr          = splitter:("and" / "or") { return `${splitter}` }
+Not        = not:"not" { return `${not}` }
+Decimals    = "'decimals'"
+Characters  = "'characters'"
+value       = "value"
+unspecified = "value unspecified"
+ 
+ 
+MultipleInteger = Integer+
+MultipleIntegerNoZero = FirstDigit (Integer)*
+Decimal = (MultipleIntegerNoZero / Integer) ("." DecimalEnd)?
+DecimalEnd = Integer+
+ 
+valueContent     = ([!-&(-_a-z{-~ \t])+ 
+ 
+CHAR = [a-zA-Z]
+Integer = [0-9]
+FirstDigit = [1-9]
+SingleQuote = [']
+DoubleQuote = ["]
+S_ = [ \t]+
+W_ = (S_ / [\n\t\r])+
