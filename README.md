@@ -36,7 +36,14 @@ The grammar provided here is used for editing the rules, with suport of the "SBV
 ```<RuleName> = <name>:<RulePart> { <js_code using name> }```
 
 Concrete example below, the NounConcept subrule will return the nounConcept, without its initial \$, surrounded by its tags. 
+
 ```NounConcept = "$" nc:(NounConceptChars+) { return `<noun_concept>${nc.join('')}</noun_concept>` }```
 
 #### Testing rules
 The [PeggyJS.org online version](https://peggyjs.org/online.html) allows to test the rules agains the grammar.
+
+## Acknowledgements
+Several people and organisations had a majot contribution to the development and formalisation of the AIXM business rules grammar. In particular, the following contributions are acknowledged:
+- Fadi SANDAKLY, IBM - under contract for Eurocontrol, 2022 - developed the initial EBNF version of the grammar after analysing the existing set of AIXM business rules
+- Augustin LEDOYEN, Eiffage/Pulsar Consulting, 2023 - developed the initial Peggy version of the EBNF grammar, used for editing the rules
+- Gregor KRAJCOVIC, Indra/Avitech, 2023 - proposed significant grammar refinements in order to facilitate the parsing of the rules
