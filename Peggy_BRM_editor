@@ -24,7 +24,7 @@ Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray 
 
 That = "#" W_? t:(CHAR / W_ / [-${}:,.+*/\\\[\]] /Integer)+ W_? "#" { return `#${t.join('')}#` }
 
-CompareValues = compareValues:("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from" ) { return `<keyword>${compareValues}</keyword>` }
+CompareValues = compareValues:("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from" / "as" / "other-than" ) { return `<keyword>${compareValues}</keyword>` }
 
 CompareWithNumber = operator:("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from") S_ value:(parameter / (SingleQuote Decimal SingleQuote)) { return `<keyword>${operator}</keyword> <name>${value.join('')}</name>` }
 
