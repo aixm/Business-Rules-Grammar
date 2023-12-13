@@ -26,7 +26,7 @@ Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray 
 That = "#" W_? (CHAR / W_ / [-${}:,.+*/\\\[\]] /Integer)+ W_? "#"
  
  
-CompareValues = ("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from")
+CompareValues = ("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from" / "as" / "other-than")
  
  
  
