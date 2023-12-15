@@ -24,13 +24,13 @@ Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray 
 
 That = "#" W_? t:(CHAR / W_ / [-${}:,.+*/\\\[\]] /Integer)+ W_? "#" { return `#${t.join('')}#` }
 
-CompareValues = compareValues:("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from" / "as" / "other-than" ) { return `<keyword>${compareValues}</keyword>` }
+CompareValues = compareValues:(higherOrEqual / higher / lowerOrEqual / lower / equal / different / sameAs / other) { return `<keyword>${compareValues}</keyword>` }
 
-CompareWithNumber = operator:("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from") S_ value:(parameter / (SingleQuote Decimal SingleQuote)) { return `<keyword>${operator}</keyword> <name>${value.join('')}</name>` }
+CompareWithNumber = operator:(higherOrEqual / higher / lowerOrEqual / lower / equal / different) S_ value:(parameter / (SingleQuote Decimal SingleQuote)) { return `<keyword>${operator}</keyword> <name>${value.join('')}</name>` }
 
-CompareWithSingleName = operator:("as" / "other-than" / "starting-with" / "contains-substring") S_ value:((SingleQuote parameter SingleQuote) / Singlevalue) { return `<keyword>${operator}</keyword> <name>${value}</name>` }
+CompareWithSingleName = operator:(sameAs / other / startingWith / containsSubstring) S_ value:((SingleQuote parameter SingleQuote) / Singlevalue) { return `<keyword>${operator}</keyword> <name>${value}</name>` }
 
-CompareWithNameArray = operator:("other-than-one-of" / "as-one-of")  S_ value:(Multiplevalues / parameter) { return `<keyword>${operator}</keyword> <name>${value}</name>` }  
+CompareWithNameArray = operator:(otherThanAnyOf / asOneOf)  S_ value:(Multiplevalues / parameter) { return `<keyword>${operator}</keyword> <name>${value}</name>` }  
 
 ExpressedWith = "expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters) { return `<keyword>expressed-with</keyword> ${qr} <name>${um}</name>` }
 CoordinatesExpressedWith = "coordinates-expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters) { return `<keyword>coordinates-expressed-with</keyword> ${qr} <name>${um}</name>` }
@@ -71,12 +71,24 @@ OneOrInteger = ("one" / MultipleIntegerNoZero / parameter)
 parameter = "${" p:(CHAR)+ "}" { return `\$\{${p.join('')}\}` }
 
 ItIsProhibited 	= prohibit:"It is prohibited that" { return `<keyword>${prohibit}</keyword>` }
-AndOr 			= splitter:("and" / "or") { return `<keyword>${splitter}</keyword>` }
-Not 			= not:"not" { return `<keyword>${not}</keyword>` }
-Decimals		= "'decimals'"
-Characters		= "'characters'" 
-value 			= val:"value" { return `<keyword>${val}</keyword>` }
+AndOr 		= splitter:("and" / "or") { return `<keyword>${splitter}</keyword>` }
+Not 		= not:"not" { return `<keyword>${not}</keyword>` }
+Decimals	= "'decimals'"
+Characters	= "'characters'" 
+value 		= val:"value" { return `<keyword>${val}</keyword>` }
 unspecified 	= val:"value unspecified" { return `<keyword>${val}</keyword>` }
+higherOrEqual	= "higher-or-equal-to"
+higher		= "higher-than"
+lowerOrEqual	= "lower-or-equal-to"
+lower		= "lower-than"
+equal		= "equal-to"
+different	= "different-from"
+sameAs		= "as"
+other		= "other-than"
+startingWith 	= "starting-with"
+containsSubstring = "contains-substring"
+otherThanAnyOf 	= "other-than-one-of"
+asOneOf		= "as-one-of"
 
 valueContent 	= v:([!-&(-_a-z{-~ \t])+ { return `${v.join("")}` }  
  
@@ -91,5 +103,5 @@ FirstDigit = [1-9]
 SingleQuote = [']
 DoubleQuote = ["]
 S_ = [ \t]+
-W_ = (S_ / [\n\t\r])+
+W_ = (S_ / [\n\r])+
 _$ = "$"

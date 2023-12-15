@@ -24,13 +24,13 @@ Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray 
 
 That = "#" W_? (CHAR / W_ / [-${}:,.+*/\\\[\]] /Integer)+ W_? "#"
 
-CompareValues = ("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from" / "as" / "other-than")
+CompareValues = ( higherOrEqual / higher / lowerOrEqual / lower / equal / different / sameAs / other)
 
-CompareWithSingleName = ("as" / "other-than" / "starting-with" / "contains-substring") S_ ((SingleQuote parameter SingleQuote) / Singlevalue)
+CompareWithSingleName = ( sameAs / other / startingWith / containsSubstring ) S_ ((SingleQuote parameter SingleQuote) / Singlevalue)
 
-CompareWithNameArray = ("other-than-one-of" / "as-one-of") S_ (Multiplevalues / parameter)
+CompareWithNameArray = ( otherThanAnyOf / asOneOf ) S_ (Multiplevalues / parameter)
 
-CompareWithNumber = ("higher-or-equal-to" / "higher-than" / "lower-or-equal-to" / "lower-than" / "equal-to" / "different-from") S_ (parameter / (SingleQuote Decimal SingleQuote))
+CompareWithNumber = ( higherOrEqual / higher / lowerOrEqual / lower / equal / different) S_ (parameter / (SingleQuote Decimal SingleQuote))
 
 ExpressedWith = "expressed-with" S_ QuantityOrRange S_ (Decimals / Characters)
 
@@ -83,6 +83,18 @@ Decimals	= "'decimals'"
 Characters	= "'characters'"
 value		= "value"
 unspecified	= "value unspecified"
+higherOrEqual	= "higher-or-equal-to"
+higher		= "higher-than"
+lowerOrEqual	= "lower-or-equal-to"
+lower		= "lower-than"
+equal		= "equal-to"
+different	= "different-from"
+sameAs		= "as"
+other		= "other-than"
+startingWith 	= "starting-with"
+containsSubstring = "contains-substring"
+otherThanAnyOf 	= "other-than-one-of"
+asOneOf		= "as-one-of"
 
 MultipleInteger = Integer+
 MultipleIntegerNoZero = FirstDigit (Integer)*
@@ -97,4 +109,4 @@ FirstDigit = [1-9]
 SingleQuote = [']
 DoubleQuote = ["]
 S_ = [ \t]+
-W_ = (S_ / [\n\t\r])+
+W_ = (S_ / [\n\r])+
