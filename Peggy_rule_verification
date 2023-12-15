@@ -4,15 +4,15 @@ ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*
 
 ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
 
-D_NounDescendNouns = Object S_ ("has-descendant"/"has") S_ (QuantityOrRange S_)? propertyPath { return `[D]` }
+D_NounDescendNouns = (Object/dataSet) S_ ("has-descendant"/"has") S_ (QuantityOrRange S_)? propertyPath { return `[D]` }
 
 DVT_NounDescendNounsTest = D_NounDescendNouns S_ value S_ Test { return `[DVT]` }
 
-D_NounDescendNounsNoQuantity = Object S_ ("has-descendant"/"has") S_ propertyPath
+D_NounDescendNounsNoQuantity = (Object/dataSet) S_ ("has-descendant"/"has") S_ propertyPath
 
 DV_NounDescendNounsValue = ((D_NounDescendNounsNoQuantity S_ unspecified) / (D_NounDescendNouns S_ value)) { return `[DV]` }
 
-VVV_NounValueVsNounValue = Object S_ "has" S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value { return `[VVV]` }
+VVV_NounValueVsNounValue = (Object/dataSet) S_ "has" S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value { return `[VVV]` }
 
 A_NounAncestor = Object S_ "is-descendant-of" S_ Object { return `[A]` }
 
@@ -42,10 +42,9 @@ Commavalue = W_? "," W_? Singlevalue
 
 Singlevalue = (SingleQuote valueContent SingleQuote) / (DoubleQuote valueContent DoubleQuote)
 
-Object = (Noun / NounParameter / dataSet)
+Object = (Noun index?)
 
-elementPath	 = (Noun / NounParameter) (pathContinuation)*
-pathContinuation = PS (Noun / NounParameter)
+elementPath	= (Noun PS)* Noun index? (PS Noun)*
 
 propertyPath	 = (attrPath / elementPath)
 
@@ -53,8 +52,7 @@ attrPath	 = (elementPath)? attr
 
 propertyWithRef  = elementPath hrefAttr
 
-Noun		 = namespace? NounChars index?
-NounParameter	 = parameter index?
+Noun		 = namespace? (NounChars / parameter)
 
 NounChars = CHAR [a-zA-Z_0-9]*
 
@@ -62,7 +60,7 @@ dataSet		= "::dataSet"
 hrefAttr	= "@xlink:href"
 namespace	= CHAR [a-zA-Z_0-9]* ':'
 PS		= '.'
-attr		= '@' NounChars ':href'?
+attr		= '@' namespace? NounChars
 index		= '[' FirstDigit ']'
 
 QuantityOrRange = (Quantity / Range)

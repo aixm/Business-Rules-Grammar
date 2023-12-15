@@ -3,17 +3,17 @@ ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*
 
 ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
 
-D_NounDescendNouns = p1:(Object S_) vc:("has-descendant"/"has") S_ p2:((QuantityOrRange S_)?) p3:(propertyPath) { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${p2?.join('') || ''}${p3}` } 
+D_NounDescendNouns = p1:((Object / dataSet) S_) vc:("has-descendant"/"has") S_ p2:((QuantityOrRange S_)?) p3:(propertyPath) { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${p2?.join('') || ''}${p3}` } 
 
 DVT_NounDescendNounsTest = D_NounDescendNouns S_ value S_ Test
 
-D_NounDescendNounsNoQuantity = p1:(Object S_) vc:("has-descendant"/"has") S_ p3:propertyPath { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${''}${p3}` }
+D_NounDescendNounsNoQuantity = p1:((Object / dataSet) S_) vc:("has-descendant"/"has") S_ p3:propertyPath { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${''}${p3}` }
 
 DV_NounDescendNounsValue = (D_NounDescendNounsNoQuantity S_ unspecified) / (D_NounDescendNouns S_ value)
 
-VVV_NounValueVsNounValue = p1:(Object S_) vc:"has" p2:(S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value) { return `${p1.join('')}<verb_concept>${vc}</verb_concept>${p2.join('')}` }
+VVV_NounValueVsNounValue = p1:((Object / dataSet) S_) vc:"has" p2:(S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value) { return `${p1.join('')}<verb_concept>${vc}</verb_concept>${p2.join('')}` }
 
-A_NounAncestor = p1:(Object S_) vc:"is-descendant-of" p2:(S_ Object) { return `${p1.join('')}<verb_concept>${vc}</verb_concept>${p2.join('')}` }
+A_NounAncestor = p1:(Object S_) vc:"is-descendant-of" p2:(S_ (Object / dataSet)) { return `${p1.join('')}<verb_concept>${vc}</verb_concept>${p2.join('')}` }
 
 RF_NounReferenceNoun = p1:(propertyWithRef S_) vc:"references-to" p2:(S_ Object) { return `${p1.join('')}<verb_concept>${vc}</verb_concept>${p2.join('')}` }
 
@@ -41,22 +41,22 @@ Commavalue = W_? "," W_? v:Singlevalue { return `,${v}` }
 
 Singlevalue = e:((SingleQuote valueContent SingleQuote) / (DoubleQuote valueContent DoubleQuote)) { return `${e.join('')}` }
 
-Object = _$ obj:(Noun / NounParameter / dataSet) { return `<noun_concept>${obj}</noun_concept>`}
+Object = _$ obj:(Noun index?) { return `<noun_concept>${obj.join("")}</noun_concept>`}
 
 propertyWithRef = _$ e:(elementPath) a:(hrefAttr) { return `<noun_concept>${e||""}${a}</noun_concept>`}
 
 propertyPath 	= _$ p:(attrPath / elementPath) { return `<noun_concept>${p}</noun_concept>`}
 attrPath 	= e:(elementPath)? a:(attr) { return `${e||""}${a}`}  
 
-elementPath	= p1:(Noun / NounParameter) p2:(pathContinuation)* { return `${p1}${p2.join("")}`}
-pathContinuation = pc:(PS (Noun / NounParameter)) { return `${pc.join("")}`}
+elementPath	= p1:(previousNoun)* p2:( Noun index?) p3:(nextNoun)* { return `${p1?.join("")}${p2.join("")}${p3?.join("")}` }
+nextNoun = p1:(PS Noun) { return `${p1.join("")}` }
+previousNoun = p1:(Noun PS) { return `${p1.join("")}` }
 
-attr	= at:('@' NounChars ':href'?) { return `${at.join('')}`}
-NounParameter 	= p:(parameter index?) { return `${p.join('')}`}
-Noun  		= nc:(namespace? NounChars index?) { return `${nc.join('')}`}
+attr		= at:('@' namespace? NounChars) { return `${at.join('')}`}
+Noun  		= nc:(namespace? (NounChars / parameter)) { return `${nc.join('')}`}
 NounChars = p1:(CHAR) p2:([a-zA-Z_0-9]*) { return `${p1}${p2.join("")}` }
 
-dataSet		= "::dataSet"  
+dataSet		= ds:("::dataSet") { return `<noun_concept>${ds}</noun_concept>`}
 hrefAttr	= "@xlink:href"
 namespace 	= p1:(CHAR) p2:([a-zA-Z_0-9]*) ':' { return `${p1}${p2.join('')}:`}
 PS 			= '.'
