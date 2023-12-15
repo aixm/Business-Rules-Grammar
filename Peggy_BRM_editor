@@ -1,7 +1,7 @@
 AIXMBusinessRule = ItIsProhibited W_ ConditionsSeparated W_?
-ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*  
+ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*
 
-ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)  
+ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
 
 D_NounDescendNouns = p1:(Object S_) vc:("has-descendant"/"has") S_ p2:((QuantityOrRange S_)?) p3:(propertyPath) { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${p2?.join('') || ''}${p3}` } 
 
@@ -32,7 +32,7 @@ CompareWithSingleName = operator:("as" / "other-than" / "starting-with" / "conta
 
 CompareWithNameArray = operator:("other-than-one-of" / "as-one-of")  S_ value:(Multiplevalues / parameter) { return `<keyword>${operator}</keyword> <name>${value}</name>` }  
 
-ExpressedWith = "expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters)  { return `<keyword>expressed-with</keyword> ${qr} <name>${um}</name>` }
+ExpressedWith = "expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters) { return `<keyword>expressed-with</keyword> ${qr} <name>${um}</name>` }
 CoordinatesExpressedWith = "coordinates-expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters) { return `<keyword>coordinates-expressed-with</keyword> ${qr} <name>${um}</name>` }
 
 Multiplevalues = "(" W_? sv:Singlevalue cv:(Commavalue)+ W_? ")"  { return `(${sv}${cv.join('')})` }
@@ -57,7 +57,7 @@ Noun  		= nc:(namespace? NounChars index?) { return `${nc.join('')}`}
 NounChars = p1:(CHAR) p2:([a-zA-Z_0-9]*) { return `${p1}${p2.join("")}` }
 
 dataSet		= "::dataSet"  
-hrefAttr	= "@xlink:href"  
+hrefAttr	= "@xlink:href"
 namespace 	= p1:(CHAR) p2:([a-zA-Z_0-9]*) ':' { return `${p1}${p2.join('')}:`}
 PS 			= '.'
 index		= ix:('[' FirstDigit ']') { return `${ix.join('')}`}   
