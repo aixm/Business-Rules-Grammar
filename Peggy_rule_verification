@@ -36,7 +36,7 @@ ExpressedWith = "expressed-with" S_ QuantityOrRange S_ (Decimals / Characters)
 
 CoordinatesExpressedWith = "coordinates-expressed-with" S_ QuantityOrRange S_ (Decimals / Characters)
 
-Multiplevalues = "(" W_? Singlevalue (Commavalue)+ W_? ")"
+Multiplevalues = "(" W_? Singlevalue (Commavalue)* W_? ")"
 
 Commavalue = W_? "," W_? Singlevalue
 

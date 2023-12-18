@@ -35,7 +35,7 @@ CompareWithNameArray = operator:(otherThanAnyOf / asOneOf)  S_ value:(Multipleva
 ExpressedWith = "expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters) { return `<keyword>expressed-with</keyword> ${qr} <name>${um}</name>` }
 CoordinatesExpressedWith = "coordinates-expressed-with" S_ qr:(QuantityOrRange) S_ um:(Decimals / Characters) { return `<keyword>coordinates-expressed-with</keyword> ${qr} <name>${um}</name>` }
 
-Multiplevalues = "(" W_? sv:Singlevalue cv:(Commavalue)+ W_? ")"  { return `(${sv}${cv.join('')})` }
+Multiplevalues = "(" W_? sv:Singlevalue cv:(Commavalue)* W_? ")"  { return `(${sv}${cv.join('')})` }
 
 Commavalue = W_? "," W_? v:Singlevalue { return `,${v}` }
 
