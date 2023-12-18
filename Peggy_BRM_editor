@@ -17,7 +17,7 @@ A_NounAncestor = p1:(Object S_) vc:"is-descendant-of" p2:(S_ (Object / dataSet))
 
 RF_NounReferenceNoun = p1:(propertyWithRef S_) vc:"references-to" p2:(S_ Object) { return `${p1.join('')}<verb_concept>${vc}</verb_concept>${p2.join('')}` }
 
-RFB_NounReferencedByNouns = p1:(Object S_) vc:"is-referenced-by" S_ p2:(Quantity S_)? p3:propertyWithRef { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${p2?.join('') || ''}${p3}` } 
+RFB_NounReferencedByNouns = p1:(Object S_) vc:"is-referenced-by" S_ p3:propertyWithRef { return `${p1.join('')}<verb_concept>${vc}</verb_concept> ${p3}` } 
 
 
 Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray / CoordinatesExpressedWith / ExpressedWith)

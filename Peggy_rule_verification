@@ -18,7 +18,7 @@ A_NounAncestor = Object S_ "is-descendant-of" S_ Object { return `[A]` }
 
 RF_NounReferenceNoun = propertyWithRef S_ "references-to" S_ Object { return `[RF]` }
 
-RFB_NounReferencedByNouns = Object S_ "is-referenced-by" S_ (Quantity S_)? propertyWithRef { return `[RFB]` }
+RFB_NounReferencedByNouns = Object S_ "is-referenced-by" S_ propertyWithRef { return `[RFB]` }
 
 Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray / CoordinatesExpressedWith / ExpressedWith)
 
