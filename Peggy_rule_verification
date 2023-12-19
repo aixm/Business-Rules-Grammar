@@ -1,3 +1,8 @@
+//entry   = file
+//file    = line ([\r]? [\n] line)*
+//line    = ruleId W_ AIXMBusinessRule "~"
+//ruleId  = "AIXM-5.1.1_RULE-" [a-fA-F0-9]+
+
 AIXMBusinessRule = ItIsProhibited W_ ConditionsSeparated W_?
 
 ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*
