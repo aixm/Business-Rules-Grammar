@@ -7,7 +7,7 @@ AIXMBusinessRule = ItIsProhibited W_ ConditionsSeparated W_?
 
 ConditionsSeparated = ElementaryCondition (W_ And W_ ElementaryCondition)*
 
-ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
+ElementaryCondition = (Not S_)? (LVL_NounLocationVsNounLocation  / EVE_NounExtentVsNounExtent / VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DG_NounDescendNounsGeo / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
 
 D_NounDescendNouns = (Object/dataSet) S_ ("has-descendant"/"has") S_ (QuantityOrRange S_)? propertyPath { return `[D]` }
 
@@ -17,7 +17,13 @@ D_NounDescendNounsNoQuantity = (Object/dataSet) S_ ("has-descendant"/"has") S_ p
 
 DV_NounDescendNounsValue = ((D_NounDescendNounsNoQuantity S_ unspecified) / (D_NounDescendNouns S_ value)) { return `[DV]` }
 
+DG_NounDescendNounsGeo = ((D_NounDescendNounsNoQuantity S_ unspecifiedGeo) / (D_NounDescendNouns S_ geo)) { return `[DG]` }
+
 VVV_NounValueVsNounValue = (Object/dataSet) S_ "has" S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value { return `[VVV]` }
+
+LVL_NounLocationVsNounLocation = (Object/dataSet) S_ "has" S_ elementPath S_ location S_ CompareLocation S_ elementPath S_ location { return `[LVL]` }
+
+EVE_NounExtentVsNounExtent = (Object/dataSet) S_ "has" S_ elementPath S_ geo S_ CompareExtent S_ elementPath S_ extent { return `[EVE]` }
 
 A_NounAncestor = Object S_ "is-descendant-of" S_ Object { return `[A]` }
 
@@ -36,6 +42,10 @@ CompareWithSingleName = ( sameAs / other / startingWith / containsSubstring ) S_
 CompareWithNameArray = ( otherThanAnyOf / asOneOf ) S_ (Multiplevalues / parameter)
 
 CompareWithNumber = ( higherOrEqual / higher / lowerOrEqual / lower / equal / different) S_ (parameter / (SingleQuote Decimal SingleQuote))
+
+CompareLocation = ("closer-than" / "further-than") S_ Decimal "NM" S_ "to"
+
+CompareExtent = "intersects"
 
 ExpressedWith = "expressed-with" S_ QuantityOrRange S_ (Decimals / Characters)
 
@@ -86,6 +96,10 @@ Decimals	= "'decimals'"
 Characters	= "'characters'"
 value		= "value"
 unspecified	= "value unspecified"
+location = "location" 
+extent = "extent"
+geo = ("location" / "extent")
+unspecifiedGeo = ("location unspecified " / "extent unspecified ")
 higherOrEqual	= "higher-or-equal-to"
 higher		= "higher-than"
 lowerOrEqual	= "lower-or-equal-to"
