@@ -5,7 +5,7 @@
 
 AIXMBusinessRule = ItIsProhibited W_ ConditionsSeparated W_?
 
-ConditionsSeparated = ElementaryCondition (W_ AndOr W_ ElementaryCondition)*
+ConditionsSeparated = ElementaryCondition (W_ And W_ ElementaryCondition)*
 
 ElementaryCondition = (Not S_)? (VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
 
@@ -80,7 +80,7 @@ parameter = "${" (CHAR)+ "}"
 
 ItIsProhibited	= prohibit:"It is prohibited that" { return `${prohibit}` }
 
-AndOr		= splitter:("and" / "or") { return `${splitter}` }
+And		= splitter:"and" { return `${splitter}` }
 Not		= not:"not" { return `${not}` }
 Decimals	= "'decimals'"
 Characters	= "'characters'"
