@@ -33,7 +33,7 @@ RFB_NounReferencedByNouns = Object S_ "is-referenced-by" S_ propertyWithRef { re
 
 Test = (That / CompareWithNumber / CompareWithSingleName / CompareWithNameArray / CoordinatesExpressedWith / ExpressedWith)
 
-That = "#" W_? (CHAR / W_ / [-${}:,.+*/\\\[\]] /Integer)+ W_? "#"
+That = "#" W_? (CHAR / W_ / [-${}:,.+*/\\\[\]\?\'\(\)\|\-] /Integer)+ W_? "#"
 
 CompareValues = ( higherOrEqual / higher / lowerOrEqual / lower / equal / different / sameAs / other)
 
