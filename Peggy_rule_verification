@@ -7,7 +7,7 @@ AIXMBusinessRule = ItIsProhibited W_ ConditionsSeparated W_?
 
 ConditionsSeparated = ElementaryCondition (W_ And W_ ElementaryCondition)*
 
-ElementaryCondition = (Not S_)? (LVL_NounLocationVsNounLocation  / EVE_NounExtentVsNounExtent / VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DG_NounDescendNounsGeo / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
+ElementaryCondition = (Not S_)? (LVL_NounLocationVsNounLocation  / EVE_NounExtentVsNounExtent / EVP_NounPeriodVsNounPeriod / VVV_NounValueVsNounValue / DVT_NounDescendNounsTest / DG_NounDescendNounsGeo / DT_NounDescendNounsTime / DV_NounDescendNounsValue / D_NounDescendNouns / A_NounAncestor / RF_NounReferenceNoun / RFB_NounReferencedByNouns)
 
 D_NounDescendNouns = (Object/dataSet) S_ ("has-descendant"/"has") S_ (QuantityOrRange S_)? propertyPath { return `[D]` }
 
@@ -19,11 +19,15 @@ DV_NounDescendNounsValue = ((D_NounDescendNounsNoQuantity S_ unspecified) / (D_N
 
 DG_NounDescendNounsGeo = ((D_NounDescendNounsNoQuantity S_ unspecifiedGeo) / (D_NounDescendNouns S_ geo)) { return `[DG]` }
 
+DT_NounDescendNounsTime = ((D_NounDescendNounsNoQuantity S_ unspecifiedTime) / (D_NounDescendNouns S_ time)) { return `[DT]` }
+
 VVV_NounValueVsNounValue = (Object/dataSet) S_ "has" S_ propertyPath S_ value S_ CompareValues S_ propertyPath S_ value { return `[VVV]` }
 
 LVL_NounLocationVsNounLocation = (Object/dataSet) S_ "has" S_ elementPath S_ location S_ CompareLocation S_ elementPath S_ location { return `[LVL]` }
 
 EVE_NounExtentVsNounExtent = (Object/dataSet) S_ "has" S_ elementPath S_ geo S_ CompareExtent S_ elementPath S_ extent { return `[EVE]` }
+
+EVP_NounPeriodVsNounPeriod = (Object/dataSet) S_ "has" S_ elementPath S_ time S_ CompareExtent S_ elementPath S_ period { return `[EVP]` }
 
 A_NounAncestor = Object S_ "is-descendant-of" S_ Object { return `[A]` }
 
@@ -100,6 +104,10 @@ location = "location"
 extent = "extent"
 geo = ("location" / "extent")
 unspecifiedGeo = ("location unspecified" / "extent unspecified")
+instant = "instant" 
+period = "period"
+time = ("instant" / "period")
+unspecifiedTime = ("instant unspecified" / "period unspecified")
 higherOrEqual	= "higher-or-equal-to"
 higher		= "higher-than"
 lowerOrEqual	= "lower-or-equal-to"
