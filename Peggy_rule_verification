@@ -73,11 +73,11 @@ propertyWithRef  = elementPath hrefAttr
 
 Noun		 = namespace? (NounChars / parameter)
 
-NounChars = CHAR [a-zA-Z0-9-_]*
+NounChars = CHAR [a-zA-Z_0-9]*
 
 dataSet		= "::dataSet"
 hrefAttr	= "@xlink:href"
-namespace	= CHAR [a-zA-Z_0-9]* ':'
+namespace	= CHAR [a-zA-Z0-9-_]* ':'
 PS		= '.'
 attr		= '@' namespace? NounChars
 index		= '[' FirstDigit ']'
