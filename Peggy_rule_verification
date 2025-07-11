@@ -94,7 +94,7 @@ OneOrInteger = ("one" / MultipleIntegerNoZero / parameter)
 
 parameter = "${" (CHAR)+ "}"
 
-regex = SingleQuote (Integer / CHAR / [\\\[\]\(\)\{\}\|\-\\.,+*\?])+ SingleQuote
+regex = SingleQuote (Integer / CHAR / [ /\\\[\]\(\)\{\}\|\-\\.,+*\?])+ SingleQuote
 
 ItIsProhibited	= prohibit:"It is prohibited that" { return `${prohibit}` }
 
